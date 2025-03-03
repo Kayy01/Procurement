@@ -41,7 +41,7 @@ response = requests.get(test_url, headers=headers)
 
 # Show response
 st.write(f"Status Code: {response.status_code}")
-st.write(f"Response: {response.text}"
+st.write(f"Response: {response.text}")
          
 
 # Initialize Azure OpenAI Chat model
