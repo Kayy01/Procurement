@@ -23,7 +23,6 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 # Check if secrets are available
 if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
     st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
-    st.stop()ired environment variables. Check your .env file.")
     st.stop()
     
 
