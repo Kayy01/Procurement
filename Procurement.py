@@ -32,9 +32,9 @@ if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
 # Initialize Azure OpenAI Chat model
 llm = AzureChatOpenAI(
     azure_deployment=OPENAI_DEPLOYMENT_NAME,
-    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-08-01-preview",
+    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-10-21",
     openai_api_key=OPENAI_API_KEY,
-    openai_api_version="2024-08-01-preview"
+    openai_api_version="2024-10-21"
 )
 
 # Function to extract text from PDF
