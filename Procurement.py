@@ -15,34 +15,23 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import streamlit as st
 
 # Load secrets from Streamlit Cloud
-OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
-AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-
-
-st.write("Deployment Name:", OPENAI_DEPLOYMENT_NAME)
-st.write("Endpoint:", AZURE_OPENAI_ENDPOINT)
-st.write("API Key Length:", len(OPENAI_API_KEY) if OPENAI_API_KEY else "Missing")
+aiEndpoint = st.secrets["AI_ENDPOINT"]
+aiApiKey = st.secrets["AI_API_KEY"]
 
 # Check if secrets are available
-if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
+if not all([aiEndpoint, aiApiKey]):
     st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
     st.stop()
 
-
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
-API_VERSION = "2024-02-15-preview"  # Ensure this is correct
-
-# Test API request
-headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
-test_url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{st.secrets['OPENAI_DEPLOYMENT_NAME']}/completions?api-version={API_VERSION}"
+# Example test request
+test_url = f"{aiEndpoint}/openai/deployments?api-version=2023-03-15-preview"
+headers = {"Authorization": f"Bearer {aiApiKey}"}
 
 response = requests.get(test_url, headers=headers)
 
-# Show response
-st.write(f"Status Code: {response.status_code}")
-st.write(f"Response: {response.text}")
+if response.status_code == 200:
+    st.success("Connection successful!")
+else:
 
 # Initialize Azure OpenAI Chat model
 llm = AzureChatOpenAI(
