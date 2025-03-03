@@ -22,24 +22,16 @@ aiApiKey = st.secrets["AI_API_KEY"]
 if not all([aiEndpoint, aiApiKey]):
     st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
     st.stop()
-
-# Example test request
-test_url = f"{aiEndpoint}/openai/deployments?api-version=2023-03-15-preview"
-headers = {"Authorization": f"Bearer {aiApiKey}"}
-
-response = requests.get(test_url, headers=headers)
-
-if response.status_code == 200:
-    st.success("Connection successful!")
 else:
-
-# Initialize Azure OpenAI Chat model
-llm = AzureChatOpenAI(
-    azure_deployment=OPENAI_DEPLOYMENT_NAME,
-    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-10-21",
-    openai_api_key=OPENAI_API_KEY,
-    openai_api_version="2024-10-21"
-)
+    # Initialize AzureChatOpenAI or any other setup required
+    from langchain.chat_models import AzureChatOpenAI
+    
+    llm = AzureChatOpenAI(
+        azure_endpoint=aiEndpoint,
+        openai_api_key=aiApiKey,
+        deployment_name="TestingInterface",
+        api_version="2023-03-15-preview"
+    )
 
 # Function to extract text from PDF
 def extract_text_from_pdf(pdf_path):
