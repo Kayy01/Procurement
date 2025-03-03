@@ -12,28 +12,28 @@ from langchain.schema import HumanMessage
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.chat_models import AzureChatOpenAI
 
-
-
 import streamlit as st
 
 # Load secrets from Streamlit Cloud
-aiEndpoint = st.secrets["AI_ENDPOINT"]
-aiApiKey = st.secrets["AI_API_KEY"]
+OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
+AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+
 
 # Check if secrets are available
-if not all([aiEndpoint, aiApiKey]):
+if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
     st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
+    st.stop()ired environment variables. Check your .env file.")
     st.stop()
-else:
-    # Initialize AzureChatOpenAI or any other setup required
-    from langchain.chat_models import AzureChatOpenAI
     
-    llm = AzureChatOpenAI(
-        azure_endpoint=aiEndpoint,
-        openai_api_key=aiApiKey,
-        deployment_name="TestingInterface",
-        api_version="2023-03-15-preview"
-    )
+
+# Initialize Azure OpenAI Chat model
+llm = AzureChatOpenAI(
+    azure_deployment=OPENAI_DEPLOYMENT_NAME,
+    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-08-01-preview",
+    openai_api_key=OPENAI_API_KEY,
+    openai_api_version="2024-08-01-preview"
+)
 
 # Function to extract text from PDF
 def extract_text_from_pdf(pdf_path):
