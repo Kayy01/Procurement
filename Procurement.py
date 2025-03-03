@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import pdfplumber
 import docx
+import requests
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment
