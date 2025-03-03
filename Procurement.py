@@ -36,14 +36,13 @@ API_VERSION = "2024-02-15-preview"  # Ensure this is correct
 
 # Test API request
 headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
-test_url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments?api-version={API_VERSION}"
+test_url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{st.secrets['OPENAI_DEPLOYMENT_NAME']}/completions?api-version={API_VERSION}"
 
 response = requests.get(test_url, headers=headers)
 
 # Show response
 st.write(f"Status Code: {response.status_code}")
 st.write(f"Response: {response.text}")
-         
 
 # Initialize Azure OpenAI Chat model
 llm = AzureChatOpenAI(
