@@ -19,6 +19,9 @@ AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 
+st.write("Deployment Name:", OPENAI_DEPLOYMENT_NAME)
+st.write("Endpoint:", AZURE_OPENAI_ENDPOINT)
+st.write("API Key Length:", len(OPENAI_API_KEY) if OPENAI_API_KEY else "Missing")
 
 # Check if secrets are available
 if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
