@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.chat_models import AzureChatOpenAI
+
 
 
 import streamlit as st
