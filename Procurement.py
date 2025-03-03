@@ -12,6 +12,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import ChatOpenAI
 
 import streamlit as st
+api_key = os.getenv("OPENAI_API_KEY")  # Read API key
+
 
 # Load secrets from Streamlit Cloud
 OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
