@@ -10,15 +10,18 @@ from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-# Load environment variables
-load_dotenv()
-OPENAI_DEPLOYMENT_NAME = os.getenv("OPENAI_DEPLOYMENT_NAME")
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+import streamlit as st
 
+# Load secrets from Streamlit Cloud
+OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
+AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+
+# Check if secrets are available
 if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
-    st.error("Missing required environment variables. Check your .env file.")
+    st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
     st.stop()
+
 
 # Initialize Azure OpenAI Chat model
 llm = AzureChatOpenAI(
