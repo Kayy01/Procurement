@@ -9,17 +9,15 @@ from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import ChatOpenAI
+
 
 import streamlit as st
-api_key = os.getenv("OPENAI_API_KEY")  # Read API key
-
 
 # Load secrets from Streamlit Cloud
 OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
 AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-llm = ChatOpenAI(model_name="gpt-4", openai_api_key=api_key)
+
 
 
 # Check if secrets are available
