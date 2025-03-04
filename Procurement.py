@@ -80,7 +80,7 @@ def process_document(file):
         """
         
         response = llm.invoke([HumanMessage(content=prompt)])
-        extracted_data.append(response.content.strip())
+        extracted_data.append(response.content.strip().upper())
     
     return extracted_data
 
