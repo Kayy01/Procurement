@@ -64,7 +64,7 @@ def process_document(file):
     
     for chunk in text_chunks:
         prompt = f"""
-        Analyze the document properly, extract main & subitems properly and their descriptions from the following text:
+        Analyze the document properly, extract only main & subitems properly in structured and their descriptions from the following text:
         {chunk}
         
         **Formatting Rules:**
