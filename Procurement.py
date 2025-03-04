@@ -75,7 +75,7 @@ def process_document(file):
         - Do **not** split words in half when breaking lines.
         - If exceeding 45 characters, split into a new row.
 
-        Do not add any extra symbols before the answer.
+        Do not add any extra symbols before the answer. Do not leave unnecessary gaps between words.
         Do not add any extra words/comment in the answer. Strictly follow formatting rules.
         """
         
