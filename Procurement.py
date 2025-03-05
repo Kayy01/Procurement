@@ -2,7 +2,6 @@ import os
 import streamlit as st
 import pdfplumber
 import docx
-import requests
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment
@@ -10,28 +9,23 @@ from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
 from langchain.schema import HumanMessage
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.chat_models import AzureChatOpenAI
 
-import streamlit as st
+# Load environment variables
+load_dotenv(dotenv_path="index.env", override=True)
+OPENAI_DEPLOYMENT_NAME = os.getenv("OPENAI_DEPLOYMENT_NAME")
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Load secrets from Streamlit Cloud
-OPENAI_DEPLOYMENT_NAME = st.secrets["OPENAI_DEPLOYMENT_NAME"]
-AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-
-
-# Check if secrets are available
 if not all([OPENAI_DEPLOYMENT_NAME, AZURE_OPENAI_ENDPOINT, OPENAI_API_KEY]):
-    st.error("Missing required environment variables. Check your Streamlit Secrets settings.")
+    st.error("Missing required environment variables. Check your .env file.")
     st.stop()
-    
 
 # Initialize Azure OpenAI Chat model
 llm = AzureChatOpenAI(
     azure_deployment=OPENAI_DEPLOYMENT_NAME,
-    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-08-01-preview",
+    azure_endpoint=f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=2024-10-21",
     openai_api_key=OPENAI_API_KEY,
-    openai_api_version="2024-08-01-preview"
+    openai_api_version="2024-10-21"
 )
 
 # Function to extract text from PDF
@@ -64,7 +58,7 @@ def process_document(file):
     
     for chunk in text_chunks:
         prompt = f"""
-        Analyze the document properly, extract main & subitems properly and their descriptions in structured manner from the following text:
+        Analyze the document properly, extract main & subitems properly and their descriptions from the following text:
         {chunk}
         
         **Formatting Rules:**
@@ -76,12 +70,11 @@ def process_document(file):
         - If exceeding 45 characters, split into a new row.
 
         Do not add any extra symbols before the answer.
-        Do not leave unnecessary gaps between words.
         Do not add any extra words/comment in the answer. Strictly follow formatting rules.
         """
         
         response = llm.invoke([HumanMessage(content=prompt)])
-        extracted_data.append(response.content.strip().upper())
+        extracted_data.append(response.content.strip())
     
     return extracted_data
 
